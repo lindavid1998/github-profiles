@@ -1,0 +1,16 @@
+button {
+	padding: 10px 20px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	background-color: hsl(216, 100%, 50%);
+	color: var(--gray100);
+  font: var(--p);
+}
+button:hover {
+	background-color: hsl(216, 100%, 70%);
+}
+button:active {
+	background-color: hsl(216, 100%, 30%);
+	transform: scale(0.98);
+}
