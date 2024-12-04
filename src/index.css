@@ -1,0 +1,24 @@
+:root {
+	--ff: 'Inter', sans-serif;
+
+	--h1: bold 1.125rem/1.4em var(--ff);
+	--h2: bold 1rem/1.4em var(--ff);
+	--p: 1rem/1.4em var(--ff);
+	--small: 0.875rem/1.4em var(--ff);
+
+	--gray100: hsl(0, 0%, 100%);
+	--gray70: hsl(0, 0%, 70%);
+	--gray10: hsl(0, 0%, 10%);
+	--gray0: hsl(0, 0%, 0%);
+
+	font-size: 16px;
+}
+
+body {
+	margin: 0;
+	height: 100vh;
+	width: 100vw;
+	font: var(--p);
+	background-color: var(--gray10);
+	color: var(--gray100);
+}
