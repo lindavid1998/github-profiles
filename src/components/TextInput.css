@@ -1,0 +1,27 @@
+.text-input {
+  --padding: 10px;
+  --max-width: 380px;
+
+  color: var(--gray100);
+  display: flex;
+  flex-direction: column;
+  max-width: var(--max-width);
+  gap: 4px;
+}
+
+input {
+  background-color: var(--gray0);
+  padding: var(--padding);
+  border: 1px solid hsl(0, 0%, 20%); /* Subtle border */
+  border-radius: 4px; /* Rounded corners for a modern look */
+  font: var(--p);
+}
+input:focus {
+  border: 1px solid hsl(0, 0%, 40%);
+}
+
+label {
+  left: var(--padding);
+  position: relative;
+  color: var(--gray70);
+}
