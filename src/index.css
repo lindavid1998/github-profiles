@@ -8,8 +8,15 @@
 
 	--gray100: hsl(0, 0%, 100%);
 	--gray70: hsl(0, 0%, 70%);
+	--gray30: hsl(0, 0%, 30%);
+	--gray20: hsl(0, 0%, 20%);
 	--gray10: hsl(0, 0%, 10%);
 	--gray0: hsl(0, 0%, 0%);
+
+	--gap-sm: 0.25rem;
+	--gap-md: 0.5rem;
+	--gap-lg: 1rem;
+	--gap-xl: 1.5rem;
 
 	font-size: 16px;
 }
@@ -21,4 +28,13 @@ body {
 	font: var(--p);
 	background-color: var(--gray10);
 	color: var(--gray100);
+}
+
+input {
+  all: unset;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
 }
