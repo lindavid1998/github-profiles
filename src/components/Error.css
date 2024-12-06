@@ -1,0 +1,25 @@
+.error {
+  width: 100vw;
+  height: 100vh;
+}
+
+.error-card {
+  position: relative;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  background-color: var(--gray20);
+  width: 200px;
+  padding: 10px 20px;
+  border-radius: 14px;
+}
+
+.error-message {
+  font: var(--h2);
+}
+
+.btn {
+  margin-top: var(--gap-lg);
+  margin-left: auto;
+  width: fit-content;
+}
