@@ -1,26 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Card.css';
-
-// request URLs
-// https://api.github.com/users/lindavid1998
-// https://api.github.com/users/lindavid1998/repos
-
-// mock data
-const user = {
-	avatar_url: 'https://avatars.githubusercontent.com/u/22776267?v=4',
-	name: 'David Lin',
-	public_repos: 39,
-	followers: 1,
-	following: 5,
-	html_url: 'https://github.com/lindavid1998',
-};
-const username = 'lindavid1998';
-const repoCount = 5;
-const repo = {
-	name: 'css-exercises',
-	full_name: 'lindavid1998/css-exercises',
-	html_url: 'https://github.com/lindavid1998/css-exercises',
-};
+import { DateTime } from 'luxon';
 
 // for invalid usernames:
 // {
@@ -28,6 +8,8 @@ const repo = {
 //     "documentation_url": "https://docs.github.com/rest",
 //     "status": "404"
 // }
+
+const n = 4; // number of repos to show
 
 const Stat = ({ label, children }) => {
 	return (
@@ -38,12 +20,55 @@ const Stat = ({ label, children }) => {
 	);
 };
 
-// User can see the avatar, username, followers and repository count of
-// searched user User can see the top 4 repositories of searched user
-const Card = () => {
-  // TODO: on mount, call github API and populate state
+const Card = ({ username }) => {
+	const [user, setUser] = useState({});
+	const [repos, setRepos] = useState([]);
+	const [repoCount, setRepoCount] = useState(-1);
 
-  // how to handle invalid username?
+	const getUserData = async () => {
+		const url = `https://api.github.com/users/${username}`;
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error(`Error: ${response.status}`);
+			}
+			const json = await response.json();
+			setUser(json);
+		} catch (error) {
+			console.log(error);
+			// TODO: how to handle invalid username?
+		}
+	};
+
+	const getRepoData = async () => {
+		const url = `https://api.github.com/users/${username}/repos`;
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error(`Error: ${response.status}`);
+			}
+			const arr = await response.json();
+
+      // sort arr by modified time
+      arr.sort(compareRepoUpdatedTimes);
+
+			setRepos(arr);
+			setRepoCount(arr.length);
+		} catch (error) {
+			console.log(error);
+		}
+  };
+  
+  const compareRepoUpdatedTimes = (a, b) => {
+    const aDatetime = DateTime.fromISO(a.updated_at);
+    const bDatetime = DateTime.fromISO(b.updated_at);
+    return bDatetime.toMillis() - aDatetime.toMillis();
+  }
+
+	useEffect(() => {
+		getUserData();
+		getRepoData();
+	}, []);
 
 	return (
 		<div className='card'>
@@ -64,9 +89,11 @@ const Card = () => {
 
 				<div className='recent-repos'>
 					<div className='stat-label'>Recent repositories:</div>
-					<div>
-						<a href={repo.html_url}>{repo.name}</a>
-					</div>
+					{repos.slice(0, n).map((repo, index) => (
+						<div key={index}>
+							<a href={repo.html_url}>{repo.name}</a>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
