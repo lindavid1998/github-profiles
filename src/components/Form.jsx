@@ -3,11 +3,11 @@ import Button from './Button.jsx';
 import TextInput from './TextInput.jsx';
 import './Form.css'
 
-const Form = () => {
+const Form = ({ onChange }) => {
   return (
     <div className="form">
       <div className='form-row'>
-        <TextInput>Enter a username</TextInput>
+        <TextInput onChange={onChange}>Enter a username</TextInput>
         <Button>Search</Button>
       </div>
     </div>
