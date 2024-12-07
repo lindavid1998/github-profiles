@@ -1,10 +1,14 @@
 .error {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100vw;
   height: 100vh;
+  background-color: hsla(0, 0%, 10%, 0.6);
 }
 
 .error-card {
-  position: relative;
+  position: absolute;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%); 
