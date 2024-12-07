@@ -3,13 +3,6 @@ import './Card.css';
 import { DateTime } from 'luxon';
 import Error from './Error.jsx';
 
-// for invalid usernames:
-// {
-//     "message": "Not Found",
-//     "documentation_url": "https://docs.github.com/rest",
-//     "status": "404"
-// }
-
 const n = 4; // number of repos to show
 
 const Stat = ({ label, children }) => {
@@ -24,9 +17,9 @@ const Stat = ({ label, children }) => {
 const Card = ({ username }) => {
 	const [user, setUser] = useState({});
 	const [repos, setRepos] = useState([]);
-  const [repoCount, setRepoCount] = useState(-1);
-  const [error, setError] = useState(null);
-  const [loaded, setLoaded] = useState(false);
+	const [repoCount, setRepoCount] = useState(-1);
+	const [error, setError] = useState(null);
+	const [loaded, setLoaded] = useState(false);
 
 	const getUserData = async () => {
 		const url = `https://api.github.com/users/${username}`;
@@ -36,12 +29,12 @@ const Card = ({ username }) => {
 				throw new Error(`Error: ${response.status}`);
 			}
 			const json = await response.json();
-      setUser(json);
+			setUser(json);
 		} catch (error) {
-      setError(error);
+			setError(error);
 			// TODO: how to handle invalid username?
 		}
-    setLoaded(true);
+		setLoaded(true);
 	};
 
 	const getRepoData = async () => {
@@ -53,41 +46,50 @@ const Card = ({ username }) => {
 			}
 			const arr = await response.json();
 
-      // sort arr by modified time
-      arr.sort(compareRepoUpdatedTimes);
+			// sort arr by modified time
+			arr.sort(compareRepoUpdatedTimes);
 
 			setRepos(arr);
-      setRepoCount(arr.length);
+			setRepoCount(arr.length);
 		} catch (error) {
 			setError(error);
 		}
-  };
-  
-  const compareRepoUpdatedTimes = (a, b) => {
-    const aDatetime = DateTime.fromISO(a.updated_at);
-    const bDatetime = DateTime.fromISO(b.updated_at);
-    return bDatetime.toMillis() - aDatetime.toMillis();
-  }
+	};
+
+	const compareRepoUpdatedTimes = (a, b) => {
+		const aDatetime = DateTime.fromISO(a.updated_at);
+		const bDatetime = DateTime.fromISO(b.updated_at);
+		return bDatetime.toMillis() - aDatetime.toMillis();
+	};
 
   useEffect(() => {
-    setTimeout(() => {
-      getUserData();
-      getRepoData();
-    }, 2000)
-  }, []);
+    setLoaded(false)
+		setTimeout(() => {
+			getUserData();
+			getRepoData();
+		}, 1000);
+	}, [username]);
 
-  if (error) {
-    return <Error onAcknowledge={() => setError(null)}>Username not found</Error>;
-  }
+	if (error) {
+		return (
+			<Error onAcknowledge={() => setError(null)}>Username not found</Error>
+		);
+	}
+	// for invalid usernames:
+	// {
+	//     "message": "Not Found",
+	//     "documentation_url": "https://docs.github.com/rest",
+	//     "status": "404"
+	// }
 
-  if (!loaded) {
-    // how can i use Suspense instead?
-    return <>Loading...</>
-  }
+	if (!loaded) {
+		// how can i use Suspense instead?
+		return <>Loading...</>;
+	}
 
-  if (!Object.keys(user).length) {
-    return <></>
-  }
+	if (!Object.keys(user).length) {
+		return <></>;
+	}
 
 	return (
 		<div className='card'>

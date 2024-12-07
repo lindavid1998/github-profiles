@@ -1,5 +1,5 @@
 .navbar {
   font: var(--h1);
-  padding: 10px 20px;
+  padding: var(--gap-lg) 0;
   text-align: center;
 }
