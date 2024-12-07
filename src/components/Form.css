@@ -1,0 +1,9 @@
+.form {
+  width: 100%;
+}
+.form-row {
+  display: flex;
+  gap: var(--gap-sm);
+  margin: 0 auto;
+  width: fit-content;
+}
