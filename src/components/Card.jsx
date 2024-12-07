@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import './Card.css';
 import { DateTime } from 'luxon';
+import Error from './Error.jsx';
 
 // for invalid usernames:
 // {
@@ -23,7 +24,9 @@ const Stat = ({ label, children }) => {
 const Card = ({ username }) => {
 	const [user, setUser] = useState({});
 	const [repos, setRepos] = useState([]);
-	const [repoCount, setRepoCount] = useState(-1);
+  const [repoCount, setRepoCount] = useState(-1);
+  const [error, setError] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
 	const getUserData = async () => {
 		const url = `https://api.github.com/users/${username}`;
@@ -33,11 +36,12 @@ const Card = ({ username }) => {
 				throw new Error(`Error: ${response.status}`);
 			}
 			const json = await response.json();
-			setUser(json);
+      setUser(json);
 		} catch (error) {
-			console.log(error);
+      setError(error);
 			// TODO: how to handle invalid username?
 		}
+    setLoaded(true);
 	};
 
 	const getRepoData = async () => {
@@ -53,9 +57,9 @@ const Card = ({ username }) => {
       arr.sort(compareRepoUpdatedTimes);
 
 			setRepos(arr);
-			setRepoCount(arr.length);
+      setRepoCount(arr.length);
 		} catch (error) {
-			console.log(error);
+			setError(error);
 		}
   };
   
@@ -65,10 +69,25 @@ const Card = ({ username }) => {
     return bDatetime.toMillis() - aDatetime.toMillis();
   }
 
-	useEffect(() => {
-		getUserData();
-		getRepoData();
-	}, []);
+  useEffect(() => {
+    setTimeout(() => {
+      getUserData();
+      getRepoData();
+    }, 5000)
+  }, []);
+
+  if (error) {
+    return <Error onAcknowledge={() => setError(null)}>Username not found</Error>;
+  }
+
+  if (!loaded) {
+    // how can i use Suspense instead?
+    return <>Loading...</>
+  }
+
+  if (!user.length) {
+    return <></>
+  }
 
 	return (
 		<div className='card'>
