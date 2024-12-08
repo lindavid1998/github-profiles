@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import './Card.css';
 import { DateTime } from 'luxon';
-import Error from './Error.jsx';
+import ErrorMessage from './ErrorMessage.jsx';
 
 const n = 4; // number of repos to show
 
@@ -25,14 +25,16 @@ const Card = ({ username }) => {
 		const url = `https://api.github.com/users/${username}`;
 		try {
 			const response = await fetch(url);
-			if (!response.ok) {
-				throw new Error(`Error: ${response.status}`);
-			}
 			const json = await response.json();
-			setUser(json);
-		} catch (error) {
-			setError(error);
-			// TODO: how to handle invalid username?
+      
+			if (!response.ok) {
+        const errorMsg = json.message || 'An error occurred'
+        throw new Error(errorMsg)
+			}
+			
+      setUser(json);
+		} catch (err) {
+			setError(err);
 		}
 		setLoaded(true);
 	};
@@ -41,18 +43,19 @@ const Card = ({ username }) => {
 		const url = `https://api.github.com/users/${username}/repos`;
 		try {
 			const response = await fetch(url);
+			const data = await response.json();
 			if (!response.ok) {
-				throw new Error(`Error: ${response.status}`);
+				const errorMsg = json.message || 'An error occurred';
+				throw new Error(errorMsg);
 			}
-			const arr = await response.json();
 
 			// sort arr by modified time
-			arr.sort(compareRepoUpdatedTimes);
+			data.sort(compareRepoUpdatedTimes);
 
-			setRepos(arr);
-			setRepoCount(arr.length);
-		} catch (error) {
-			setError(error);
+			setRepos(data);
+			setRepoCount(data.length);
+		} catch (err) {
+			setError(err);
 		}
 	};
 
@@ -64,23 +67,19 @@ const Card = ({ username }) => {
 
   useEffect(() => {
     setLoaded(false)
-		setTimeout(() => {
-			getUserData();
-			getRepoData();
-		}, 1000);
-	}, [username]);
+		getUserData();
+		getRepoData();
+  }, [username]);
+  
+  const handleAcknowledge = () => {
+    setError(null);
+    setUser({});
+    setRepos([])
+  }
 
 	if (error) {
-		return (
-			<Error onAcknowledge={() => setError(null)}>Username not found</Error>
-		);
+		return <ErrorMessage onAcknowledge={handleAcknowledge}>{error.message}</ErrorMessage>;
 	}
-	// for invalid usernames:
-	// {
-	//     "message": "Not Found",
-	//     "documentation_url": "https://docs.github.com/rest",
-	//     "status": "404"
-	// }
 
 	if (!loaded) {
 		// how can i use Suspense instead?

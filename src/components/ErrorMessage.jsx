@@ -1,8 +1,8 @@
 import React from 'react';
-import './Error.css';
+import './ErrorMessage.css';
 import Button from './Button.jsx';
 
-const Error = ({ children, onAcknowledge }) => {
+const ErrorMessage = ({ children, onAcknowledge }) => {
 	return (
 		<div className='error'>
 			<div className='error-card'>
@@ -16,4 +16,4 @@ const Error = ({ children, onAcknowledge }) => {
 	);
 };
 
-export default Error
+export default ErrorMessage;
