@@ -71,14 +71,16 @@ const Card = ({ username }) => {
 		getRepoData();
   }, [username]);
   
-  const handleAcknowledge = () => {
+  const clearError = () => {
     setError(null);
     setUser({});
     setRepos([])
   }
 
 	if (error) {
-		return <ErrorMessage onAcknowledge={handleAcknowledge}>{error.message}</ErrorMessage>;
+		return (
+			<ErrorMessage onAcknowledge={clearError}>{error.message}</ErrorMessage>
+		);
 	}
 
 	if (!loaded) {
