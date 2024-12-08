@@ -7,6 +7,8 @@
 	--small: 0.875rem/1.4em var(--ff);
 
 	--gray100: hsl(0, 0%, 100%);
+	--gray90: hsl(0, 0%, 90%);
+	--gray80: hsl(0, 0%, 80%);
 	--gray70: hsl(0, 0%, 70%);
 	--gray30: hsl(0, 0%, 30%);
 	--gray20: hsl(0, 0%, 20%);
@@ -22,13 +24,33 @@
 	box-sizing: border-box;
 }
 
+html[data-theme='light'] {
+	--background-color: var(--gray90);
+	--secondary-bg-color: var(--gray80);
+	--text-color: var(--gray0);
+	--secondary-text-color: var(--gray30);
+	--input-background-color:var(--gray100);
+	--input-border-color: var(--gray80);
+	--input-border-color-focused: hsl(0, 0%, 60%);
+}
+
+html[data-theme='dark'] {
+	--background-color: var(--gray10);
+	--secondary-bg-color: var(--gray20);
+	--text-color: var(--gray100);
+	--secondary-text-color: var(--gray70);
+	--input-background-color: var(--gray0);
+	--input-border-color: var(--gray20);
+	--input-border-color-focused: hsl(0, 0%, 40%);
+}
+
 body {
 	margin: 0;
 	height: 100vh;
 	width: 100vw;
 	font: var(--p);
-	background-color: var(--gray10);
-	color: var(--gray100);
+	background-color: var(--background-color);
+	color: var(--text-color);
 }
 
 input {

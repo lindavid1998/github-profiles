@@ -2,7 +2,7 @@
   --padding: 10px;
   --max-width: 380px;
 
-  color: var(--gray100);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   max-width: var(--max-width);
@@ -10,18 +10,18 @@
 }
 
 input {
-  background-color: var(--gray0);
+  background-color: var(--input-background-color);
   padding: var(--padding);
-  border: 1px solid hsl(0, 0%, 20%); /* Subtle border */
-  border-radius: 4px; /* Rounded corners for a modern look */
+  border: 1px solid var(--input-border-color); 
+  border-radius: 4px;
   font: var(--p);
 }
 input:focus {
-  border: 1px solid hsl(0, 0%, 40%);
+  border: 1px solid var(--input-border-color-focused);
 }
 
 label {
   left: var(--padding);
   position: relative;
-  color: var(--gray70);
+  color: var(--secondary-text-color);
 }
