@@ -11,7 +11,6 @@ function App() {
 	const [username, setUsername] = useState('');
 	const [input, setInput] = useState('');
 	const [showResult, setShowResult] = useState(false);
-	// const [theme, setTheme] = useState('dark')
 
 	const handleChange = (e) => {
 		setInput(e.target.value);
@@ -22,25 +21,11 @@ function App() {
 		setShowResult(true);
 	};
 
-	useEffect(() => {
-		document.documentElement.setAttribute('data-theme', 'dark');
-	}, []);
-
-	const toggleTheme = () => {
-		const current = document.documentElement.getAttribute('data-theme');
-		if (current == 'dark') {
-			document.documentElement.setAttribute('data-theme', 'light');
-		} else {
-			document.documentElement.setAttribute('data-theme', 'dark');
-		}
-	};
-
 	return (
 		<div className='content'>
 			<Navbar />
 			<Form onChange={handleChange} onClick={handleClick} />
 			{showResult && <Card username={username} />}
-			<Button onClick={toggleTheme}>Toggle theme</Button>
 		</div>
 	);
 }

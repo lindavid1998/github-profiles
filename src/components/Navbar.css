@@ -3,3 +3,20 @@
   padding: var(--gap-lg) 0;
   text-align: center;
 }
+
+.appearance {
+  position: absolute;
+  right: var(--gap-lg);
+  top: var(--gap-lg);
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.appearance:hover {
+  background-color: var(--secondary-bg-color);
+}
